@@ -55,12 +55,12 @@ The platform will visualize the energy consumed by the network and potentially c
 development team will need an API (preferably GraphQL) to connect to which will provide this information. The platform should
 be able to perform the following operations (already sorted by priority):
 
-- **Mandatory:** Provide the energy consumption per transaction for a specific block.
-- **Mandatory:** Provide the total energy consumption per day in the last `x` number of days. It could be that you are going to hit rate limiting
+- [x] **Mandatory:** Provide the energy consumption per transaction for a specific block.
+- [x] **Mandatory:** Provide the total energy consumption per day in the last `x` number of days. It could be that you are going to hit rate limiting
   errors, it is expected and we would like to see what possible solutions you implemented
-- **Optional Feature**: Optimize the number of calls made to the Blockchain API to avoid asking for the
+- [ ] **Optional Feature**: Optimize the number of calls made to the Blockchain API to avoid asking for the
   same information multiple times.
-- **Optional Feature**: Provide the total energy consumption of all transactions performed by a specific wallet address.
+- [ ] **Optional Feature**: Provide the total energy consumption of all transactions performed by a specific wallet address.
 
 Even if it is too soon in the product's lifetime to think about non-functional requirements, it will be beneficial to
 build it considering that we hope to scale the solution and avoid significant refactoring.
@@ -84,9 +84,9 @@ This project is comes with a pre-configured GraphQL server, hosted as a serverle
 function to get you started on the assignment. However, feel free to write your
 own implementation if you prefer.
 
-## Running the project
+### Running the project
 Requirements:
-- NodeJS 16.x (run `nvm use` in root folder)
+- NodeJS 18.x (run `nvm use` in root folder)
 - Yarn cli
 - Serverless framework: run `npm install -g serverless`
 
@@ -103,4 +103,19 @@ yarn start
 ```
 
 The server will be ready at: `http://localhost:4000/graphql`
+
+### Running Test
+
+This project utilizes the vitest framework and has tests for
+- Testing the 3rd party API in `blockchain_api.test.ts`
+- Testing the date mapping for the second requirement
+- Testing the Energy Calculation for the first and second requirement
+
+```sh
+yarn test
+```
+
+Note: It does not test the graphql api layer as I didn't have the time to dig into how that would work. But usually my approach would be to have an integration test suite for the critical paths and I would consider those even more important thatn unit tests aligned with the Testing Trophy.
+
+![Tropy](https://dzrge5zzbsh6q.cloudfront.net/Testing-Pyramid_Figure-4.jpg)
 
