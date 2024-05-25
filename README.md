@@ -104,6 +104,37 @@ yarn start
 
 The server will be ready at: `http://localhost:4000/graphql`
 
+#### Example Queries
+
+```graphQL
+query BlockQuery {
+  block(hash: "0000000000000bae09a7a393a8acded75aa67e46cb81f7acaa5ad94f9eacd103") {
+    blockHash
+    transactions {
+      transactionHash
+      energyConsumption
+      energyConsumptionUnit
+    }
+  },
+}
+
+query LastXDaysQuery {
+  energyConsumptionOfLastX(days: 1) {
+    dateInMilliseconds
+    energyConsumption
+    energyConsumptionUnit
+  }
+}
+```
+
+### Running Docker
+
+#### Run the GraphQL Serverless
+```
+docker build -t integration-assignment .
+docker run -p 4000:4000 integration-assignment
+```
+
 ### Running Test
 
 This project utilizes the vitest framework and has tests for
