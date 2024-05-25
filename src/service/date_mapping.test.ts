@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import {provideDatesForLastDays} from "../src/service/date_mapping";
+import {provideDatesForLastDays} from "./date_mapping";
 
 test('create array of dates of the last 5 days', async () => {
   let dates = provideDatesForLastDays(5)

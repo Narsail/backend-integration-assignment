@@ -2,8 +2,8 @@ import { expect, test } from 'vitest'
 import {
   calculateEnergyConsumptionOfBlocks,
   calculateTransactionEnergyConsumptionForBlock
-} from "../src/service/energy_calculation";
-import {BlockAPIResponse, TransactionAPIResponse} from "../src/blockchain_api/types";
+} from "./energy_calculation";
+import {BlockAPIResponse, TransactionAPIResponse} from "../blockchain_api/types";
 
 test('calculate energy consumption of a block and its transactions', async () => {
   const transactionAPIResponse: TransactionAPIResponse[] = [
