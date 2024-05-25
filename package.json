@@ -7,8 +7,7 @@
   "scripts": {
     "start": "serverless offline start --httpPort=4000 --host 0.0.0.0 --reloadHandler",
     "compile": "tsc -p . --noEmit",
-    "test": "vitest",
-    "test:watch": "jest --watch --onlyChanged"
+    "test": "vitest"
   },
   "dependencies": {
     "graphql": "^15.5.1",
