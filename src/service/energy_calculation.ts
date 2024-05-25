@@ -1,5 +1,5 @@
 import {BlockAPIResponse, TransactionAPIResponse} from "../blockchain_api/types";
-import {Block, Transaction} from "./types";
+import {Block, EnergyConsumptionOfDay, Transaction} from "./types";
 
 export function calculateTransactionEnergyConsumptionForBlock(apiResponse: BlockAPIResponse): Block {
   return {
@@ -12,6 +12,21 @@ function calculateTransactionEnergyConsumption(transaction: TransactionAPIRespon
   return {
     transactionHash: transaction.hash,
     energyConsumption: transaction.size * 4.56,
+    energyConsumptionUnit: "kWh"
+  }
+}
+
+export function calculateEnergyConsumptionOfBlocks(blocks: BlockAPIResponse[], forDay: Date): EnergyConsumptionOfDay {
+  const totalEnergyConsumption = blocks
+    .map(calculateTransactionEnergyConsumptionForBlock)
+    .flatMap(block => { return block.transactions })
+    .reduce(
+      (accumulator, currentValue) => accumulator + currentValue.energyConsumption,
+      0
+    )
+  return {
+    date: forDay,
+    energyConsumption: totalEnergyConsumption,
     energyConsumptionUnit: "kWh"
   }
 }

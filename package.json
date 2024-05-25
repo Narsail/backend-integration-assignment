@@ -7,7 +7,7 @@
   "scripts": {
     "start": "serverless offline start --httpPort=4000 --host 0.0.0.0 --reloadHandler",
     "compile": "tsc -p . --noEmit",
-    "test": "jest",
+    "test": "vitest",
     "test:watch": "jest --watch --onlyChanged"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "graphql-request": "^5.0.0",
     "graphql-scalars": "^1.18.0",
     "lambda-api": "^0.11.2",
+    "limiter": "^2.1.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

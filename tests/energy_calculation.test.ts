@@ -1,5 +1,8 @@
 import { expect, test } from 'vitest'
-import {calculateTransactionEnergyConsumptionForBlock} from "../src/service/energy_calculation";
+import {
+  calculateEnergyConsumptionOfBlocks,
+  calculateTransactionEnergyConsumptionForBlock
+} from "../src/service/energy_calculation";
 import {BlockAPIResponse, TransactionAPIResponse} from "../src/blockchain_api/types";
 
 test('calculate energy consumption of a block and its transactions', async () => {
@@ -28,3 +31,40 @@ test('calculate energy consumption of a block and its transactions', async () =>
   expect(energyConsumptionBlock.transactions[1].energyConsumption).toBeCloseTo(11.4)
   expect(energyConsumptionBlock.transactions[1].energyConsumptionUnit).toBe('kWh')
 });
+
+test('calculate total energy consumption of all blocks', async () => {
+  const transactionAPIResponse: TransactionAPIResponse[] = [
+    {
+      hash: 'tx1',
+      size: 1
+    },
+    {
+      hash: 'tx2',
+      size: 2.5
+    }
+  ]
+  const blockOne: BlockAPIResponse = {
+    hash: '1',
+    tx: transactionAPIResponse
+  }
+  const blockTwo: BlockAPIResponse = {
+    hash: '2',
+    tx: transactionAPIResponse
+  }
+
+  let today = new Date()
+
+  let totalEnergyConsumption = calculateEnergyConsumptionOfBlocks([blockOne, blockTwo], today)
+
+  expect(totalEnergyConsumption.date).toBe(today)
+  expect(totalEnergyConsumption.energyConsumption).toBeCloseTo(31.92)
+})
+
+test('calculate total energy consumption of zero if no blocks given', async () => {
+let today = new Date()
+
+  let totalEnergyConsumption = calculateEnergyConsumptionOfBlocks([], today)
+
+  expect(totalEnergyConsumption.date).toBe(today)
+  expect(totalEnergyConsumption.energyConsumption).toBeCloseTo(0)
+})

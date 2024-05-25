@@ -7,5 +7,10 @@ export interface Transaction {
   transactionHash: string,
   energyConsumption: number,
   energyConsumptionUnit: string
-//  blockHash: string
+}
+
+export interface EnergyConsumptionOfDay {
+  dateInMilliseconds: Date,
+  energyConsumption: number,
+  energyConsumptionUnit: string
 }

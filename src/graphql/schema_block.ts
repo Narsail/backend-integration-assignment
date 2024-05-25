@@ -1,4 +1,4 @@
-import { SchemaComposer } from 'graphql-compose'
+import { SchemaComposer } from "graphql-compose";
 
 export const schemaComposer = new SchemaComposer()
 
