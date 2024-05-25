@@ -1,5 +1,5 @@
 import {calculateEnergyConsumptionOfBlocks, calculateTransactionEnergyConsumptionForBlock} from "../service/energy_calculation";
-import {fetchBlocksForDate, fetchBlockWithHash} from '../blockchain_api/api';
+import {fetchBlocksForDate, fetchBlockWithHash} from '../repository/blockchain_repository';
 import { SchemaComposer } from "graphql-compose";
 import {provideDatesForLastDays} from "../service/date_mapping";
 import {BlockWithTransactionEnergyConsumptionTC} from "./schema_block";

@@ -56,7 +56,7 @@ test('calculate total energy consumption of all blocks', async () => {
 
   let totalEnergyConsumption = calculateEnergyConsumptionOfBlocks([blockOne, blockTwo], today)
 
-  expect(totalEnergyConsumption.date).toBe(today)
+  expect(totalEnergyConsumption.dateInMilliseconds).toBe(today)
   expect(totalEnergyConsumption.energyConsumption).toBeCloseTo(31.92)
 })
 
@@ -65,6 +65,6 @@ let today = new Date()
 
   let totalEnergyConsumption = calculateEnergyConsumptionOfBlocks([], today)
 
-  expect(totalEnergyConsumption.date).toBe(today)
+  expect(totalEnergyConsumption.dateInMilliseconds).toBe(today)
   expect(totalEnergyConsumption.energyConsumption).toBeCloseTo(0)
 })

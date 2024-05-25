@@ -1,0 +1,20 @@
+services:
+  integration:
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - my-network
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
+      
+networks:
+  my-network:

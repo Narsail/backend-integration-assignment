@@ -25,7 +25,7 @@ export function calculateEnergyConsumptionOfBlocks(blocks: BlockAPIResponse[], f
       0
     )
   return {
-    date: forDay,
+    dateInMilliseconds: forDay,
     energyConsumption: totalEnergyConsumption,
     energyConsumptionUnit: "kWh"
   }

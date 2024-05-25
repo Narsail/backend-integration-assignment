@@ -89,11 +89,21 @@ Requirements:
 - NodeJS 18.x (run `nvm use` in root folder)
 - Yarn cli
 - Serverless framework: run `npm install -g serverless`
+- locally running Redis on port `6379`
 
 Install dependencies:
 
 ```sh
 yarn
+```
+
+**Important:** To run locally, `line 9` in `blockchain_repository.ts` needs to be uncommented and `line 10` needs to be commented.
+
+Note: I played around with utilizing dockers environment variables to set a different host but serverless seems to not pick up docker env variables.
+
+```
+//  return createClient() // for local usage
+  return createClient({url: 'redis://redis:6379'})
 ```
 
 Run the serverless function in offline mode:
@@ -127,26 +137,24 @@ query LastXDaysQuery {
 }
 ```
 
-### Running Docker
+### Running Docker Compose
 
-#### Run the GraphQL Serverless
 ```
-docker build -t integration-assignment .
-docker run -p 4000:4000 integration-assignment
+docker compose up
 ```
 
 ### Running Test
 
 This project utilizes the vitest framework and has tests for
 - Testing the 3rd party API in `blockchain_api.test.ts`
-- Testing the date mapping for the second requirement
-- Testing the Energy Calculation for the first and second requirement
+- Testing the `date_mapping.ts` for the second requirement
+- Testing the `energy_calculation.ts` for the first and second requirement
 
 ```sh
 yarn test
 ```
 
-Note: It does not test the graphql api layer as I didn't have the time to dig into how that would work. But usually my approach would be to have an integration test suite for the critical paths and I would consider those even more important thatn unit tests aligned with the Testing Trophy.
+Note: It does not test the graphql api layer as I didn't have the time to dig into how that would work. But usually my approach would be to have an integration test suite for the critical paths and I would consider those even more important than unit tests, as aligned with the Testing Trophy.
 
 ![Tropy](https://dzrge5zzbsh6q.cloudfront.net/Testing-Pyramid_Figure-4.jpg)
 
