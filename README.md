@@ -97,9 +97,7 @@ Install dependencies:
 yarn
 ```
 
-**Important:** To run locally, `line 9` in `blockchain_repository.ts` needs to be uncommented and `line 10` needs to be commented.
-
-Note: I played around with utilizing dockers environment variables to set a different host but serverless seems to not pick up docker env variables.
+**Important:** To run locally, `line 9` in `blockchain_repository.ts` needs to be uncommented and `line 10` needs to be commented to point the lambda instance to the localhost redis.
 
 ```
 //  return createClient() // for local usage
@@ -154,7 +152,25 @@ This project utilizes the vitest framework and has tests for
 yarn test
 ```
 
-Note: It does not test the graphql api layer as I didn't have the time to dig into how that would work. But usually my approach would be to have an integration test suite for the critical paths and I would consider those even more important than unit tests, as aligned with the Testing Trophy.
+### Comments on the Solution
 
-![Tropy](https://dzrge5zzbsh6q.cloudfront.net/Testing-Pyramid_Figure-4.jpg)
+As a primer: While I have done one or two typescript based prototypes with react-native and node.js in the past, I never had to productionize it.
+My recent experience in Clipboard Health was focused on reviewing code, rarely writing some but it didn't include setting up a project from scratch.
+Combining that with my lack of experience with graphQL I only reached the 3rd requirement and did not implement any proper error handling.
+I wanted to stay true to the time-limit (Paco communicated ~6hrs) which included some research in how graphql, redis and testing (jest doesn't play nicely out of the box with typescript).
 
+My typical approach to a piece of work, let's say an epic and its stories, is to start with a skeleton that works End2End.
+You will find in the first comment that I played around with how to fetch data from an API, how to write a test for said api,
+introduce a service layer containing the energy consumption with an accompanying test.
+Then I moved to the second requirement which provided some challenges with wrapping my head around those nested promises and how to integrate a rate limiter to not overload the blockchain API.
+It was followed by some clean ups and documentation, tailed closely by integrating docker and redis to a) avoid duplicate request and b) provide an environment that should work across different operating systems (I learned that the javascript environment is prone to issues due to globally installed tools that might lead to missing dependency declarations).
+
+There are a couple of things I noticed while implementing and some that I would plan to follow up on anyway, to make that feature production ready:
+
+- I value good integration (and E2E) tests over unit tests and believe in the [Testing Trophy](https://dzrge5zzbsh6q.cloudfront.net/Testing-Pyramid_Figure-4.jpg) rather than the testing pyramid due to emerging behavior in systems that can't be captured by unit tests. Due to time limitations I didn't explore how to test graphql APIs with a test framework, but it would be high on my priority list before this goes to production.
+- Serverless Dockerization: it seems to support [dockerization](https://www.serverless.com/blog/container-support-for-lambda), something that could enable pulling environment variables from the docker definition
+- Error handling: the mechanism to fetch the total energy consumption of a day does result in json errors occationally, I suspect it does have something to do with failed request which should be a) translated into proper errors for the graphQL consumer
+- b) result in the implementation of a retry mechanism for cases where the rate limiting failed
+- Serverless is currently set up with Node16 (and does not support node18 as far as my quick skim went) but the project is set up with Node18 due to Vitests requirement. To productionize I would spend more time to set up jest with node16 and typescript and remove vitest. I have chosen it to not loose too much time with configuration issues.
+
+Thanks for giving me the chance on solving this assignment. It was a fun activity and I'm looking forward to our session.
